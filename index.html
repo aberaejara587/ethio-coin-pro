@@ -8,46 +8,85 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://adsgram.ai/sdk.js"></script>
     <style>
-        :root { --bg: #050614; --glass: rgba(255, 255, 255, 0.08); --primary: #248bcf; --accent: #00d084; }
-        
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: white; padding-bottom: 90px; overflow: hidden; position: relative; height: 100vh; }
+        :root { 
+            --bg-dark: #050614; 
+            --glass: rgba(255, 255, 255, 0.08); 
+            --primary: #248bcf; 
+            --accent: #00d084; 
+        }
 
-        /* Background Animation */
-        .bg-animate { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: radial-gradient(circle at center, #10122d 0%, #050614 100%); }
-        .bubble { position: absolute; bottom: -100px; width: 40px; height: 40px; background: rgba(36, 139, 207, 0.1); border-radius: 50%; animation: rise 10s infinite ease-in; }
-        @keyframes rise { from { bottom: -100px; transform: translateX(0); opacity: 1; } to { bottom: 110%; transform: translateX(100px); opacity: 0; } }
+        body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-dark); 
+            color: white; 
+            padding-bottom: 90px; 
+            overflow: hidden; 
+            position: relative; 
+            height: 100vh;
+            /* Gradient background like Asbeks */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(36, 139, 207, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 208, 132, 0.15) 0%, transparent 40%);
+        }
 
-        .page { display: none; padding: 20px; animation: slideUp 0.3s ease-out; height: 90vh; overflow-y: auto; }
+        /* Animation Layer */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(5px);
+            animation: rise 15s infinite linear;
+            bottom: -100px;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            20% { opacity: 0.4; }
+            100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+        }
+
+        .page { display: none; padding: 20px; animation: slideUp 0.4s ease; height: 90vh; overflow-y: auto; }
         .active-page { display: block; }
         @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* UI Elements */
+        /* Card Styles */
         .card { background: var(--glass); backdrop-filter: blur(15px); border-radius: 24px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
         .hero { background: linear-gradient(135deg, #248bcf, #0056b3); padding: 30px 20px; border-radius: 28px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
         .btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 16px; width: 100%; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.2s; }
-        .btn:active { transform: scale(0.96); }
 
-        /* Navigation */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(10, 11, 30, 0.95); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
-        .nav-item { text-align: center; font-size: 10px; opacity: 0.5; color: white; cursor: pointer; transition: 0.3s; }
-        .nav-item.active { opacity: 1; color: var(--primary); transform: translateY(-3px); }
+        /* Nav Bar */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(10, 11, 30, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
+        .nav-item { text-align: center; font-size: 10px; opacity: 0.5; color: white; cursor: pointer; }
+        .nav-item.active { opacity: 1; color: var(--primary); }
         .nav-item span { font-size: 22px; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="bg-animate" id="bg"></div>
+    <div class="bg-animation" id="bubble-container"></div>
 
     <div id="earn" class="page active-page">
         <header style="margin-bottom: 20px;">
             <p style="margin:0; opacity:0.6;">Welcome,</p>
             <h2 id="username" style="margin:5px 0;">User</h2>
         </header>
+
         <div class="hero">
             <p style="font-size:11px; opacity:0.8;">BALANCE</p>
-            <h1 id="balance" style="font-size:40px; margin:10px 0;">$0.000000</h1>
+            <h1 id="balance" style="font-size:42px; margin:10px 0;">$0.000000</h1>
             <button class="btn" onclick="watchAd()">📺 Watch Ad & Earn</button>
         </div>
+
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px;">
             <div class="card" style="text-align:center;">
                 <p style="font-size:11px; opacity:0.6;">Total Ads</p>
@@ -61,43 +100,29 @@
     </div>
 
     <div id="games" class="page">
-        <h3>Play & Earn</h3>
+        <h3>Games</h3>
         <div class="card">
             <h4>🎮 Crystal Pop</h4>
-            <p style="font-size:12px; opacity:0.7;">Coming Soon: Earn by playing.</p>
-            <button class="btn" style="background:#444;" disabled>Play Now</button>
-        </div>
-        <div class="card">
-            <h4>🧩 2048 Puzzle</h4>
-            <button class="btn" style="background:#444;" disabled>Play Now</button>
+            <button class="btn" style="background:#333;">Play (Soon)</button>
         </div>
     </div>
 
     <div id="tasks" class="page">
-        <h3>Tasks</h3>
+        <h3>Daily Tasks</h3>
         <div class="card">
             <p>Join Telegram Channel</p>
-            <button class="btn" style="font-size:14px;">Join @EthioCoin</button>
-        </div>
-        <div class="card">
-            <p>Invite a Friend</p>
-            <button class="btn" onclick="copyReferral()">Copy Link</button>
+            <button class="btn" onclick="window.open('https://t.me/AsbeksNotifications')">Join Now</button>
         </div>
     </div>
 
     <div id="wallet" class="page">
-        <h3>Wallet & Payout</h3>
+        <h3>Wallet</h3>
         <div class="card">
-            <span>TON Wallet</span>
-            <button class="btn" style="background:#333; margin-top:10px;">Connect TON Wallet</button>
-        </div>
-        <div class="card" style="text-align:center;">
             <p>Withdraw Balance</p>
             <h2 id="withdraw-balance" style="color:var(--accent);">$0.00</h2>
-            <button class="btn" disabled style="background:#222;">Minimum $1.00</button>
+            <button class="btn" style="background:#222;" disabled>Min. $1.00</button>
         </div>
-        <h3>History</h3>
-        <div id="history-list"><p style="opacity:0.4; font-size:12px;">No activity yet.</p></div>
+        <button class="btn" style="background:#333;">Connect TON Wallet</button>
     </div>
 
     <div class="nav-bar">
@@ -110,20 +135,22 @@
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
-        document.getElementById('username').innerText = tg.initDataUnsafe.user?.first_name || "User";
+        document.getElementById('username').innerText = tg.initDataUnsafe.user?.first_name || "Guest";
 
-        // Create Animated Bubbles
-        const bg = document.getElementById('bg');
+        // Generate Bubbles
+        const container = document.getElementById('bubble-container');
         for (let i = 0; i < 15; i++) {
-            let b = document.createElement('div');
+            const b = document.createElement('div');
             b.className = 'bubble';
+            const size = Math.random() * 60 + 20 + 'px';
+            b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + '%';
-            b.style.animationDelay = Math.random() * 8 + 's';
-            b.style.width = b.style.height = Math.random() * 50 + 20 + 'px';
-            bg.appendChild(b);
+            b.style.animationDuration = Math.random() * 10 + 10 + 's';
+            b.style.animationDelay = Math.random() * 5 + 's';
+            container.appendChild(b);
         }
 
-        let stats = JSON.parse(localStorage.getItem('pro_stats')) || { balance: 0, ads: 0, friends: 0, history: [] };
+        let stats = JSON.parse(localStorage.getItem('user_stats')) || { balance: 0, ads: 0, friends: 0 };
 
         function updateUI() {
             document.getElementById('balance').innerText = `$${stats.balance.toFixed(6)}`;
@@ -146,11 +173,11 @@
                 await AdController.show();
                 stats.balance += 0.00036;
                 stats.ads += 1;
-                localStorage.setItem('pro_stats', JSON.stringify(stats));
+                localStorage.setItem('user_stats', JSON.stringify(stats));
                 updateUI();
-                tg.showAlert("Success! +$0.00036");
+                tg.showAlert("Reward added!");
             } catch (e) {
-                tg.showAlert("Ad Error.");
+                tg.showAlert("Ad not finished.");
             }
         }
         updateUI();
