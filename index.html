@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="adsgram-site-verification" content="YOUR_TAG_HERE">
-    <title>Ethio Coin Pro</title>
+    <title>Ethio Coin Pro | Green</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://adsgram.ai/sdk.js"></script>
     <style>
         :root { 
-            --bg-dark: #050614; 
+            --bg-dark: #040905; 
             --glass: rgba(255, 255, 255, 0.08); 
-            --primary: #248bcf; 
-            --accent: #00d084; 
+            --primary: #00d084; /* Green */
+            --accent: #248bcf; 
         }
 
         body { 
@@ -24,10 +24,10 @@
             overflow: hidden; 
             position: relative; 
             height: 100vh;
-            /* Gradient background like Asbeks */
+            /* Greenish Gradient Background */
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(36, 139, 207, 0.2) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 208, 132, 0.15) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(0, 208, 132, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 208, 132, 0.1) 0%, transparent 40%);
         }
 
         /* Animation Layer */
@@ -42,17 +42,19 @@
 
         .bubble {
             position: absolute;
-            background: rgba(255, 255, 255, 0.05);
+            /* Green Bubbles */
+            background: rgba(0, 208, 132, 0.15); 
             border-radius: 50%;
-            filter: blur(5px);
-            animation: rise 15s infinite linear;
+            filter: blur(6px);
+            animation: rise 12s infinite linear;
             bottom: -100px;
+            border: 1px solid rgba(0, 208, 132, 0.1);
         }
 
         @keyframes rise {
             0% { transform: translateY(0) scale(1); opacity: 0; }
-            20% { opacity: 0.4; }
-            100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+            30% { opacity: 0.6; }
+            100% { transform: translateY(-120vh) scale(1.8); opacity: 0; }
         }
 
         .page { display: none; padding: 20px; animation: slideUp 0.4s ease; height: 90vh; overflow-y: auto; }
@@ -61,11 +63,11 @@
 
         /* Card Styles */
         .card { background: var(--glass); backdrop-filter: blur(15px); border-radius: 24px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .hero { background: linear-gradient(135deg, #248bcf, #0056b3); padding: 30px 20px; border-radius: 28px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-        .btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 16px; width: 100%; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .hero { background: linear-gradient(135deg, #00d084, #008a58); padding: 30px 20px; border-radius: 28px; text-align: center; box-shadow: 0 10px 25px rgba(0,208,132,0.2); }
+        .btn { background: var(--primary); color: #040905; border: none; padding: 16px; border-radius: 16px; width: 100%; font-weight: 800; font-size: 16px; cursor: pointer; transition: 0.2s; }
 
         /* Nav Bar */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(10, 11, 30, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(4, 9, 5, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(0,208,132,0.2); z-index: 1000; }
         .nav-item { text-align: center; font-size: 10px; opacity: 0.5; color: white; cursor: pointer; }
         .nav-item.active { opacity: 1; color: var(--primary); }
         .nav-item span { font-size: 22px; display: block; margin-bottom: 4px; }
@@ -77,52 +79,38 @@
 
     <div id="earn" class="page active-page">
         <header style="margin-bottom: 20px;">
-            <p style="margin:0; opacity:0.6;">Welcome,</p>
+            <p style="margin:0; opacity:0.6;">Welcome back,</p>
             <h2 id="username" style="margin:5px 0;">User</h2>
         </header>
 
         <div class="hero">
-            <p style="font-size:11px; opacity:0.8;">BALANCE</p>
+            <p style="font-size:11px; opacity:0.9; letter-spacing: 1px;">AVAILABLE BALANCE</p>
             <h1 id="balance" style="font-size:42px; margin:10px 0;">$0.000000</h1>
-            <button class="btn" onclick="watchAd()">📺 Watch Ad & Earn</button>
+            <button class="btn" onclick="watchAd()">🟢 Watch Ad & Earn</button>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px;">
             <div class="card" style="text-align:center;">
-                <p style="font-size:11px; opacity:0.6;">Total Ads</p>
-                <h2 id="total-ads">0</h2>
+                <p style="font-size:11px; opacity:0.6; margin:0;">Total Ads</p>
+                <h2 id="total-ads" style="margin:5px 0;">0</h2>
             </div>
             <div class="card" style="text-align:center;">
-                <p style="font-size:11px; opacity:0.6;">Referrals</p>
-                <h2 id="total-friends">0</h2>
+                <p style="font-size:11px; opacity:0.6; margin:0;">Referrals</p>
+                <h2 id="total-friends" style="margin:5px 0;">0</h2>
             </div>
         </div>
     </div>
 
-    <div id="games" class="page">
-        <h3>Games</h3>
-        <div class="card">
-            <h4>🎮 Crystal Pop</h4>
-            <button class="btn" style="background:#333;">Play (Soon)</button>
-        </div>
-    </div>
-
-    <div id="tasks" class="page">
-        <h3>Daily Tasks</h3>
-        <div class="card">
-            <p>Join Telegram Channel</p>
-            <button class="btn" onclick="window.open('https://t.me/AsbeksNotifications')">Join Now</button>
-        </div>
-    </div>
-
+    <div id="games" class="page"><h3>Games</h3><div class="card"><h4>Crystal Pop</h4><button class="btn" style="background:#222; color:white;">Soon</button></div></div>
+    <div id="tasks" class="page"><h3>Tasks</h3><div class="card"><p>Join Telegram</p><button class="btn">Join Now</button></div></div>
     <div id="wallet" class="page">
         <h3>Wallet</h3>
-        <div class="card">
+        <div class="card" style="text-align:center;">
             <p>Withdraw Balance</p>
-            <h2 id="withdraw-balance" style="color:var(--accent);">$0.00</h2>
-            <button class="btn" style="background:#222;" disabled>Min. $1.00</button>
+            <h2 id="withdraw-balance" style="color:var(--primary);">$0.00</h2>
+            <button class="btn" style="background:#222; color:white;" disabled>Min. $1.00</button>
         </div>
-        <button class="btn" style="background:#333;">Connect TON Wallet</button>
+        <button class="btn" style="margin-top:10px;">Connect Wallet</button>
     </div>
 
     <div class="nav-bar">
@@ -137,15 +125,15 @@
         tg.ready();
         document.getElementById('username').innerText = tg.initDataUnsafe.user?.first_name || "Guest";
 
-        // Generate Bubbles
+        // Green Bubbles Generator
         const container = document.getElementById('bubble-container');
         for (let i = 0; i < 15; i++) {
             const b = document.createElement('div');
             b.className = 'bubble';
-            const size = Math.random() * 60 + 20 + 'px';
+            const size = Math.random() * 70 + 20 + 'px';
             b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + '%';
-            b.style.animationDuration = Math.random() * 10 + 10 + 's';
+            b.style.animationDuration = Math.random() * 8 + 7 + 's';
             b.style.animationDelay = Math.random() * 5 + 's';
             container.appendChild(b);
         }
@@ -175,9 +163,9 @@
                 stats.ads += 1;
                 localStorage.setItem('user_stats', JSON.stringify(stats));
                 updateUI();
-                tg.showAlert("Reward added!");
+                tg.showAlert("Success! Green profit added.");
             } catch (e) {
-                tg.showAlert("Ad not finished.");
+                tg.showAlert("Ad skipped.");
             }
         }
         updateUI();
