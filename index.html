@@ -4,14 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="adsgram-site-verification" content="YOUR_TAG_HERE">
-    <title>Asbeks Pro</title>
+    <title>Asbeks | Ethio Coin</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://adsgram.ai/sdk.js"></script>
     <style>
-        :root { --bg: #0b0d1a; --card: #161a2e; --primary: #00d084; --secondary: #248bcf; --text: #ffffff; }
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 90px; overflow-x: hidden; }
-        
-        /* Green Animation Background */
+        :root { 
+            --bg: #0b0d1a; 
+            --card: #161a2e; 
+            --primary: #00d084; 
+            --secondary: #248bcf; 
+            --text: #ffffff; 
+        }
+
+        body { 
+            margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); 
+            padding-bottom: 90px; overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 208, 132, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(36, 139, 207, 0.05) 0%, transparent 40%);
+        }
+
+        /* Green Bubbles Animation */
         .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .bubble { position: absolute; background: rgba(0, 208, 132, 0.1); border-radius: 50%; filter: blur(5px); animation: rise 12s infinite linear; bottom: -100px; }
         @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-110vh); opacity: 0; } }
@@ -20,12 +33,32 @@
         .active-page { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Style Card like Asbeks */
-        .card { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
-        .btn-task { background: linear-gradient(135deg, #248bcf, #0056b3); color: white; border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: 700; cursor: pointer; margin-top: 10px; }
-        .btn-task:active { transform: scale(0.98); }
+        /* Main Card */
+        .main-card { background: var(--card); border-radius: 24px; padding: 25px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); position: relative; }
+        .balance-label { font-size: 14px; opacity: 0.7; letter-spacing: 1px; margin-bottom: 5px; }
+        .balance-amt { font-size: 48px; font-weight: 800; color: #5bc0f8; margin: 10px 0; }
+        
+        /* Grid Buttons */
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .btn-action { border-radius: 16px; padding: 20px 10px; border: none; color: white; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .btn-earn-1 { background: linear-gradient(135deg, #00d084, #008a58); }
+        .btn-earn-2 { background: linear-gradient(135deg, #248bcf, #0056b3); }
+        .btn-withdraw { background: #2b2f4a; }
+        .btn-deposit { background: #4c4699; }
 
-        /* Nav Footer */
+        /* Task Specific Styles */
+        .task-card { background: var(--card); border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
+        .task-info h4 { margin: 0; font-size: 16px; }
+        .task-info p { margin: 5px 0 0; font-size: 12px; color: var(--primary); font-weight: bold; }
+        .btn-start { background: var(--secondary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
+        /* Stats Row */
+        .stats-row { display: flex; justify-content: space-around; margin-top: 25px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
+        .stat-item { text-align: center; }
+        .stat-val { display: block; font-size: 18px; font-weight: bold; color: var(--primary); }
+        .stat-lab { font-size: 11px; opacity: 0.6; }
+
+        /* Navigation Footer */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #0f1122; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .nav-item { text-align: center; font-size: 10px; opacity: 0.5; color: white; cursor: pointer; }
         .nav-item.active { opacity: 1; color: var(--primary); }
@@ -37,65 +70,83 @@
     <div class="bg-animation" id="bg"></div>
 
     <div id="earn" class="page active-page">
-        <div style="text-align: center; padding: 20px;">
-            <h1 style="color: var(--secondary); font-size: 40px; margin-bottom: 5px;" id="balance">$0.000000</h1>
-            <p style="opacity: 0.6; font-size: 12px;">Earn below to start — reach $1 to withdraw</p>
-        </div>
-        <div class="card" style="text-align: center;">
-            <button class="btn-task" style="background: var(--primary); color: #000;" onclick="watchAd()">Earn $0.00039</button>
+        <p style="text-align: center; opacity: 0.8;">Welcome back, <span id="user-name">User</span>!</p>
+        
+        <div class="main-card">
+            <div class="balance-label">YOUR BALANCE</div>
+            <div class="balance-amt" id="balance">$0.000000</div>
+            <p style="font-size: 12px; opacity: 0.6;">Reach $1 to withdraw</p>
+            
+            <div class="action-grid">
+                <button class="btn-action btn-earn-1" onclick="watchAd(0.00025)"><span>▶</span> Earn $0.00025</button>
+                <button class="btn-action btn-earn-2" onclick="watchAd(0.00039)"><span>📺</span> Earn $0.00039</button>
+                <button class="btn-action btn-withdraw"><span>💵</span> Withdraw</button>
+                <button class="btn-action btn-deposit"><span>💰</span> Deposit</button>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-item"><span class="stat-val" id="total-ads">0</span><span class="stat-lab">Total Ads</span></div>
+                <div class="stat-item"><span class="stat-val">0</span><span class="stat-lab">Session</span></div>
+                <div class="stat-item"><span class="stat-val" style="color:#ffcc00;">$0.00</span><span class="stat-lab">Withdrawn</span></div>
+            </div>
         </div>
     </div>
+
+    <div id="games" class="page"><h3>Games</h3><p>Coming soon...</p></div>
 
     <div id="tasks" class="page">
-        <h2 style="margin-bottom: 20px;">Available Tasks</h2>
+        <h3 style="margin-bottom: 20px;">Daily Video Tasks</h3>
         
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="margin: 0;">Watch Video Task 1</h4>
-                    <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.7;">Reward: $0.00050</p>
-                </div>
-                <button class="btn-task" style="width: auto; padding: 10px 20px;" onclick="watchAd('task')">Start</button>
+        <div class="task-card">
+            <div class="task-info">
+                <h4>Watch Video Ads</h4>
+                <p>+ $0.00050</p>
             </div>
+            <button class="btn-start" onclick="watchAd(0.00050)">Start</button>
         </div>
 
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h4 style="margin: 0;">Watch Video Task 2</h4>
-                    <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.7;">Reward: $0.00050</p>
-                </div>
-                <button class="btn-task" style="width: auto; padding: 10px 20px;" onclick="watchAd('task')">Start</button>
+        <div class="task-card">
+            <div class="task-info">
+                <h4>Premium Video Task</h4>
+                <p>+ $0.00075</p>
             </div>
+            <button class="btn-start" onclick="watchAd(0.00075)" style="background: var(--primary); color: #000;">Start</button>
         </div>
+        
+        <p style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 20px;">More tasks will be added soon!</p>
     </div>
+
+    <div id="wallet" class="page"><h3>Wallet</h3><p>Coming soon...</p></div>
 
     <div class="nav-bar">
         <div class="nav-item active" onclick="showPage('earn', this)"><span>🏠</span>Earn</div>
+        <div class="nav-item" onclick="showPage('games', this)"><span>🎮</span>Games</div>
         <div class="nav-item" onclick="showPage('tasks', this)"><span>📈</span>Tasks</div>
-        <div class="nav-item"><span>🎮</span>Games</div>
-        <div class="nav-item"><span>💰</span>Wallet</div>
+        <div class="nav-item" onclick="showPage('wallet', this)"><span>💰</span>Wallet</div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
+        document.getElementById('user-name').innerText = tg.initDataUnsafe.user?.first_name || "Guest";
 
         // Animation Generator
         const bg = document.getElementById('bg');
         for(let i=0; i<15; i++) {
             const b = document.createElement('div');
             b.className = 'bubble';
-            b.style.width = b.style.height = Math.random()*50 + 20 + 'px';
+            const s = Math.random()*50 + 20 + 'px';
+            b.style.width = s; b.style.height = s;
             b.style.left = Math.random()*100 + '%';
             b.style.animationDuration = Math.random()*10 + 7 + 's';
             bg.appendChild(b);
         }
 
-        let stats = JSON.parse(localStorage.getItem('asbeks_stats')) || { balance: 0 };
+        let data = JSON.parse(localStorage.getItem('asbeks_data')) || { balance: 0, ads: 0 };
 
         function updateUI() {
-            document.getElementById('balance').innerText = `$${stats.balance.toFixed(6)}`;
+            document.getElementById('balance').innerText = `$${data.balance.toFixed(6)}`;
+            document.getElementById('total-ads').innerText = data.ads;
         }
 
         function showPage(id, el) {
@@ -107,16 +158,16 @@
 
         const AdController = window.Adsgram.init({ blockId: "23009" });
 
-        async function watchAd(type = 'normal') {
+        async function watchAd(amount) {
             try {
                 await AdController.show();
-                let reward = type === 'task' ? 0.00050 : 0.00039;
-                stats.balance += reward;
-                localStorage.setItem('asbeks_stats', JSON.stringify(stats));
+                data.balance += amount;
+                data.ads += 1;
+                localStorage.setItem('asbeks_data', JSON.stringify(data));
                 updateUI();
-                tg.showPopup({ message: `Success! You earned $${reward}` });
+                tg.showAlert(`Success! $${amount} added to your balance.`);
             } catch (e) {
-                tg.showAlert("Video skipped or error occurred.");
+                tg.showAlert("Ad not finished or error occurred.");
             }
         }
         updateUI();
