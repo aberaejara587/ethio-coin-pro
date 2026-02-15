@@ -3,46 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="adsgram-site-verification" content="YOUR_TOKEN_HERE">
-    
-    <title>Ethio Coin | Pro Edition</title>
-    <link rel="stylesheet" href="style.css">
-    
+    <meta name="adsgram-site-verification" content="YOUR_TAG_HERE">
+    <title>Ethio Coin | Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://adsgram.ai/sdk.js"></script>
+    <style>
+        :root { --bg: #0b0c1b; --card: #16172d; --primary: #248bcf; --secondary: #1e1f3a; --text: #ffffff; --green: #00d084; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
+        .page { display: none; padding: 20px; animation: fadeIn 0.3s; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Global UI */
+        .card { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
+        .balance-hero { background: linear-gradient(135deg, #248bcf, #0056b3); text-align: center; padding: 30px; border-radius: 25px; margin-bottom: 20px; }
+        .btn-earn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 18px; margin-top: 15px; box-shadow: 0 4px 15px rgba(36,139,207,0.4); }
+
+        /* List Items */
+        .list-item { display: flex; justify-content: space-between; align-items: center; background: var(--secondary); padding: 15px; border-radius: 15px; margin-bottom: 10px; }
+        .list-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
+
+        /* Navigation */
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
+        .nav-item { text-align: center; font-size: 11px; opacity: 0.5; transition: 0.3s; cursor: pointer; }
+        .nav-item.active { opacity: 1; color: var(--primary); }
+        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
+    </style>
 </head>
 <body>
-    <div class="app-wrapper">
-        <div class="glass-card">
-            <header>
-                <div class="logo">💎</div>
-                <h1>Ethio Coin</h1>
-                <p id="username">Welcome, Guest</p>
-            </header>
 
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <span>Balance</span>
-                    <h2 id="balance">0</h2>
-                </div>
-                <div class="stat-box">
-                    <span>Earned Today</span>
-                    <h2 id="today">0</h2>
-                </div>
+    <div id="earn" class="page active-page">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <p>Welcome, <span id="username">User</span></p>
+            <span style="background:var(--secondary); padding:5px 12px; border-radius:20px; font-size:12px;">Rank #35</span>
+        </div>
+        <div class="balance-hero">
+            <p style="font-size: 12px; opacity: 0.8; margin: 0;">YOUR BALANCE</p>
+            <h1 id="main-balance" style="font-size: 42px; margin: 10px 0;">$0.018281</h1>
+            <button class="btn-earn" onclick="watchAd()">Earn $0.00036</button>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="card" style="text-align:center;">
+                <p style="font-size:12px; margin:0;">Total Ads</p>
+                <h3 style="margin:5px 0;">10,067</h3>
             </div>
-
-            <div class="action-area">
-                <button id="adBtn" onclick="watchAd()">
-                    <span class="icon">📺</span>
-                    <span class="text">Watch Video & Earn</span>
-                    <span class="reward">+100 Pts</span>
-                </button>
-                <p class="hint">Ad completion is verified via postback.</p>
+            <div class="card" style="text-align:center;">
+                <p style="font-size:12px; margin:0;">Withdrawn</p>
+                <h3 style="margin:5px 0; color:var(--green);">$18.75</h3>
             </div>
-
-            <div id="status-bar" class="status">System: Ready</div>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <div id="games" class="page">
+        <h2>Quick Games</h2>
+        <div class="list-item">
+            <div style="display:flex; align-items:center;">
+                <div class="list-icon">🎮</div>
+                <div><strong>Crystal Pop</strong><br><small>Earn per level</small></div>
+            </div>
+            <button style="background:var(--primary); border:none; color:white; padding:8px 15px; border-radius:8px;">Play</button>
+        </div>
+        <div class="list-item">
+            <div style="display:flex; align-items:center;">
+                <div class="list-icon">🧩</div>
+                <div><strong>2048 Classic</strong><br><small>High score rewards</small></div>
+            </div>
+            <button style="background:var(--primary); border:none; color:white; padding:8px 15px; border-radius:8px;">Play</button>
+        </div>
+    </div>
+
+    <div id="tasks" class="page">
+        <h2>Tasks & Socials</h2>
+        <div class="card">
+            <p style="margin:0; font-size:14px;">Join Telegram Channel</p>
+            <p style="font-size:12px; opacity:0.6;">Stay updated with real-time CPM</p>
+            <button class="btn-earn" style="font-size:14px; padding:10px;">Join @AsbeksNotifications</button>
+        </div>
+        <div class="list-item">
+            <div><strong>Watch YouTube</strong><br><small>+0.005 USD</small></div>
+            <span style="color:var(--primary);">Open</span>
+        </div>
+    </div>
+
+    <div id="refer" class="page">
+        <h2>Invite Friends</h2>
+        <div class="card" style="text-align:center;">
+            <p>Get **$0.05** for every friend who watches 10 ads!</p>
+            <h4 style="color:var(--primary);">13 friends • $0.65 possible</h4>
+            <button class="btn-earn">Invite Contact</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="showPage('earn', this)"><i>🏠</i>Earn</div>
+        <div class="nav-item" onclick="showPage('games', this)"><i>🎮</i>Games</div>
+        <div class="nav-item" onclick="showPage('tasks', this)"><i>📈</i>Tasks</div>
+        <div class="nav-item" onclick="showPage('refer', this)"><i>👥</i>Refer</div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        document.getElementById('username').innerText = tg.initDataUnsafe.user?.first_name || "Guest";
+
+        function showPage(pageId, elm) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(pageId).classList.add('active-page');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            elm.classList.add('active');
+        }
+
+        const AdController = window.Adsgram.init({ blockId: "23009" });
+
+        async function watchAd() {
+            try {
+                await AdController.show();
+                tg.showAlert("Baga gammadde! Reward kee dabalameera.");
+            } catch (e) {
+                tg.showPopup({ message: "Ad not finished. No reward added.", buttons: [{type: 'close'}] });
+            }
+        }
+    </script>
 </body>
 </html>
