@@ -33,32 +33,27 @@
         .active-page { display: block; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Main Card */
-        .main-card { background: var(--card); border-radius: 24px; padding: 25px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); position: relative; }
+        /* Main Card Style */
+        .main-card { background: var(--card); border-radius: 24px; padding: 25px 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; }
         .balance-label { font-size: 14px; opacity: 0.7; letter-spacing: 1px; margin-bottom: 5px; }
-        .balance-amt { font-size: 48px; font-weight: 800; color: #5bc0f8; margin: 10px 0; }
+        .balance-amt { font-size: 40px; font-weight: 800; color: #5bc0f8; margin: 10px 0; }
         
         /* Grid Buttons */
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
-        .btn-action { border-radius: 16px; padding: 20px 10px; border: none; color: white; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .btn-earn-1 { background: linear-gradient(135deg, #00d084, #008a58); }
+        .btn-action { border-radius: 16px; padding: 18px 10px; border: none; color: white; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; }
+        .btn-earn-1 { background: linear-gradient(135deg, #00d084, #008a58); color: #000; }
         .btn-earn-2 { background: linear-gradient(135deg, #248bcf, #0056b3); }
         .btn-withdraw { background: #2b2f4a; }
         .btn-deposit { background: #4c4699; }
 
-        /* Task Specific Styles */
+        /* Wallet Specific Styles */
+        .wallet-card { background: linear-gradient(145deg, #1e2440, #161a2e); border-radius: 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 10px; }
+        .btn-connect { background: var(--primary); color: #000; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 800; margin-top: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        
+        /* Task Cards */
         .task-card { background: var(--card); border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
-        .task-info h4 { margin: 0; font-size: 16px; }
-        .task-info p { margin: 5px 0 0; font-size: 12px; color: var(--primary); font-weight: bold; }
-        .btn-start { background: var(--secondary); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: bold; cursor: pointer; }
 
-        /* Stats Row */
-        .stats-row { display: flex; justify-content: space-around; margin-top: 25px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 15px; }
-        .stat-item { text-align: center; }
-        .stat-val { display: block; font-size: 18px; font-weight: bold; color: var(--primary); }
-        .stat-lab { font-size: 11px; opacity: 0.6; }
-
-        /* Navigation Footer */
+        /* Nav Footer */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #0f1122; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .nav-item { text-align: center; font-size: 10px; opacity: 0.5; color: white; cursor: pointer; }
         .nav-item.active { opacity: 1; color: var(--primary); }
@@ -70,53 +65,59 @@
     <div class="bg-animation" id="bg"></div>
 
     <div id="earn" class="page active-page">
-        <p style="text-align: center; opacity: 0.8;">Welcome back, <span id="user-name">User</span>!</p>
-        
+        <p style="text-align: center; opacity: 0.8; font-size: 14px;">Welcome, <span id="user-name">User</span></p>
         <div class="main-card">
-            <div class="balance-label">YOUR BALANCE</div>
-            <div class="balance-amt" id="balance">$0.000000</div>
-            <p style="font-size: 12px; opacity: 0.6;">Reach $1 to withdraw</p>
+            <div class="balance-label">TOTAL EARNINGS</div>
+            <div class="balance-amt" id="main-balance">$0.000000</div>
             
             <div class="action-grid">
                 <button class="btn-action btn-earn-1" onclick="watchAd(0.00025)"><span>▶</span> Earn $0.00025</button>
                 <button class="btn-action btn-earn-2" onclick="watchAd(0.00039)"><span>📺</span> Earn $0.00039</button>
-                <button class="btn-action btn-withdraw"><span>💵</span> Withdraw</button>
+                <button class="btn-action btn-withdraw" onclick="showPage('wallet', document.querySelectorAll('.nav-item')[3])"><span>💵</span> Withdraw</button>
                 <button class="btn-action btn-deposit"><span>💰</span> Deposit</button>
-            </div>
-
-            <div class="stats-row">
-                <div class="stat-item"><span class="stat-val" id="total-ads">0</span><span class="stat-lab">Total Ads</span></div>
-                <div class="stat-item"><span class="stat-val">0</span><span class="stat-lab">Session</span></div>
-                <div class="stat-item"><span class="stat-val" style="color:#ffcc00;">$0.00</span><span class="stat-lab">Withdrawn</span></div>
             </div>
         </div>
     </div>
 
-    <div id="games" class="page"><h3>Games</h3><p>Coming soon...</p></div>
+    <div id="games" class="page">
+        <h3 style="text-align:center;">Games</h3>
+        <div class="main-card">
+            <p>Coming Soon! Play and earn coins.</p>
+        </div>
+    </div>
 
     <div id="tasks" class="page">
         <h3 style="margin-bottom: 20px;">Daily Video Tasks</h3>
-        
         <div class="task-card">
-            <div class="task-info">
-                <h4>Watch Video Ads</h4>
-                <p>+ $0.00050</p>
-            </div>
-            <button class="btn-start" onclick="watchAd(0.00050)">Start</button>
+            <div><h4>Video Task 1</h4><p style="color:var(--primary); margin:5px 0 0; font-size:12px;">+ $0.00050</p></div>
+            <button style="background:var(--secondary); color:white; border:none; padding:8px 15px; border-radius:8px; font-weight:bold;" onclick="watchAd(0.00050)">Start</button>
         </div>
-
         <div class="task-card">
-            <div class="task-info">
-                <h4>Premium Video Task</h4>
-                <p>+ $0.00075</p>
-            </div>
-            <button class="btn-start" onclick="watchAd(0.00075)" style="background: var(--primary); color: #000;">Start</button>
+            <div><h4>Video Task 2</h4><p style="color:var(--primary); margin:5px 0 0; font-size:12px;">+ $0.00060</p></div>
+            <button style="background:var(--secondary); color:white; border:none; padding:8px 15px; border-radius:8px; font-weight:bold;" onclick="watchAd(0.00060)">Start</button>
         </div>
-        
-        <p style="font-size: 12px; opacity: 0.5; text-align: center; margin-top: 20px;">More tasks will be added soon!</p>
     </div>
 
-    <div id="wallet" class="page"><h3>Wallet</h3><p>Coming soon...</p></div>
+    <div id="wallet" class="page">
+        <h3 style="text-align: center;">My Assets</h3>
+        <div class="wallet-card">
+            <div style="text-align: center;">
+                <p style="font-size: 12px; opacity: 0.6; margin-bottom: 5px;">WALLET BALANCE</p>
+                <h1 style="margin: 0; font-size: 36px; color: var(--primary);" id="wallet-balance">$0.0000</h1>
+                <p style="font-size: 11px; opacity: 0.5; margin-top: 10px;">Min. Withdrawal: $1.00</p>
+            </div>
+            
+            <button class="btn-connect" onclick="tg.showAlert('TON Wallet integration coming soon!')">
+                <img src="https://ton.org/download/ton_symbol.png" width="20" alt="ton"> Connect TON Wallet
+            </button>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <p style="font-size: 14px; opacity: 0.7;">Payment Methods</p>
+            <div class="task-card" style="opacity: 0.7;"><span>TON (Crypto)</span><span style="font-size: 12px;">Link</span></div>
+            <div class="task-card" style="opacity: 0.7;"><span>PayPal</span><span style="font-size: 12px;">Link</span></div>
+        </div>
+    </div>
 
     <div class="nav-bar">
         <div class="nav-item active" onclick="showPage('earn', this)"><span>🏠</span>Earn</div>
@@ -145,8 +146,8 @@
         let data = JSON.parse(localStorage.getItem('asbeks_data')) || { balance: 0, ads: 0 };
 
         function updateUI() {
-            document.getElementById('balance').innerText = `$${data.balance.toFixed(6)}`;
-            document.getElementById('total-ads').innerText = data.ads;
+            document.getElementById('main-balance').innerText = `$${data.balance.toFixed(6)}`;
+            document.getElementById('wallet-balance').innerText = `$${data.balance.toFixed(4)}`;
         }
 
         function showPage(id, el) {
@@ -162,12 +163,11 @@
             try {
                 await AdController.show();
                 data.balance += amount;
-                data.ads += 1;
                 localStorage.setItem('asbeks_data', JSON.stringify(data));
                 updateUI();
-                tg.showAlert(`Success! $${amount} added to your balance.`);
+                tg.showAlert(`Success! Earned $${amount}`);
             } catch (e) {
-                tg.showAlert("Ad not finished or error occurred.");
+                tg.showAlert("Ad skipped.");
             }
         }
         updateUI();
