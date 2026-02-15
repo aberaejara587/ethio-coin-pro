@@ -4,108 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="adsgram-site-verification" content="YOUR_TAG_HERE">
-    <title>Ethio Coin | Pro</title>
+    <title>Ethio Coin Pro</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://adsgram.ai/sdk.js"></script>
     <style>
-        :root { --bg: #0b0c1b; --card: #16172d; --primary: #248bcf; --secondary: #1e1f3a; --text: #ffffff; --green: #00d084; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 80px; overflow-x: hidden; }
-        .page { display: none; padding: 20px; animation: fadeIn 0.3s; }
+        :root { --bg: #070816; --glass: rgba(255, 255, 255, 0.07); --primary: #248bcf; --accent: #00d084; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: white; padding-bottom: 90px;
+            background-image: radial-gradient(circle at top right, rgba(36,139,207,0.2), transparent),
+                              radial-gradient(circle at bottom left, rgba(0,208,132,0.1), transparent);
+        }
+        .page { display: none; padding: 20px; animation: slideUp 0.3s ease-out; }
         .active-page { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(15px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* Global UI */
-        .card { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.05); }
-        .balance-hero { background: linear-gradient(135deg, #248bcf, #0056b3); text-align: center; padding: 30px; border-radius: 25px; margin-bottom: 20px; }
-        .btn-earn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 18px; margin-top: 15px; box-shadow: 0 4px 15px rgba(36,139,207,0.4); }
-
-        /* List Items */
-        .list-item { display: flex; justify-content: space-between; align-items: center; background: var(--secondary); padding: 15px; border-radius: 15px; margin-bottom: 10px; }
-        .list-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 15px; }
-
+        /* Wallet & Card Styles */
+        .card { background: var(--glass); backdrop-filter: blur(12px); border-radius: 24px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
+        .hero { background: linear-gradient(135deg, #248bcf, #0056b3); padding: 30px 20px; border-radius: 28px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        
+        .btn { background: var(--primary); color: white; border: none; padding: 16px; border-radius: 16px; width: 100%; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.2s; }
+        .btn-wallet { background: #333; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; }
+        
         /* Navigation */
-        .nav-bar { position: fixed; bottom: 0; width: 100%; background: var(--card); display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
-        .nav-item { text-align: center; font-size: 11px; opacity: 0.5; transition: 0.3s; cursor: pointer; }
-        .nav-item.active { opacity: 1; color: var(--primary); }
-        .nav-item i { font-size: 20px; display: block; margin-bottom: 4px; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(10, 11, 30, 0.98); backdrop-filter: blur(15px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
+        .nav-item { text-align: center; font-size: 11px; opacity: 0.5; color: white; cursor: pointer; transition: 0.3s; }
+        .nav-item.active { opacity: 1; color: var(--primary); transform: translateY(-3px); }
+        .nav-item span { font-size: 24px; display: block; margin-bottom: 4px; }
+
+        .history-item { background: var(--glass); padding: 12px 18px; border-radius: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
     </style>
 </head>
 <body>
 
     <div id="earn" class="page active-page">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <p>Welcome, <span id="username">User</span></p>
-            <span style="background:var(--secondary); padding:5px 12px; border-radius:20px; font-size:12px;">Rank #35</span>
+        <header style="margin-bottom: 25px;">
+            <p style="margin:0; opacity:0.6;">Welcome,</p>
+            <h2 id="username" style="margin:5px 0;">User</h2>
+        </header>
+
+        <div class="hero">
+            <p style="font-size:11px; opacity:0.8; letter-spacing:1px;">BALANCE</p>
+            <h1 id="balance" style="font-size:45px; margin:10px 0;">$0.000000</h1>
+            <button class="btn" onclick="watchAd()">📺 Watch Ad & Earn</button>
         </div>
-        <div class="balance-hero">
-            <p style="font-size: 12px; opacity: 0.8; margin: 0;">YOUR BALANCE</p>
-            <h1 id="main-balance" style="font-size: 42px; margin: 10px 0;">$0.018281</h1>
-            <button class="btn-earn" onclick="watchAd()">Earn $0.00036</button>
-        </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px;">
             <div class="card" style="text-align:center;">
-                <p style="font-size:12px; margin:0;">Total Ads</p>
-                <h3 style="margin:5px 0;">10,067</h3>
+                <p style="font-size:11px; opacity:0.6; margin:0;">Total Ads</p>
+                <h2 id="total-ads" style="margin:5px 0;">0</h2>
             </div>
             <div class="card" style="text-align:center;">
-                <p style="font-size:12px; margin:0;">Withdrawn</p>
-                <h3 style="margin:5px 0; color:var(--green);">$18.75</h3>
+                <p style="font-size:11px; opacity:0.6; margin:0;">Invitees</p>
+                <h2 id="total-friends" style="margin:5px 0;">0</h2>
             </div>
         </div>
     </div>
 
-    <div id="games" class="page">
-        <h2>Quick Games</h2>
-        <div class="list-item">
-            <div style="display:flex; align-items:center;">
-                <div class="list-icon">🎮</div>
-                <div><strong>Crystal Pop</strong><br><small>Earn per level</small></div>
-            </div>
-            <button style="background:var(--primary); border:none; color:white; padding:8px 15px; border-radius:8px;">Play</button>
-        </div>
-        <div class="list-item">
-            <div style="display:flex; align-items:center;">
-                <div class="list-icon">🧩</div>
-                <div><strong>2048 Classic</strong><br><small>High score rewards</small></div>
-            </div>
-            <button style="background:var(--primary); border:none; color:white; padding:8px 15px; border-radius:8px;">Play</button>
-        </div>
-    </div>
-
-    <div id="tasks" class="page">
-        <h2>Tasks & Socials</h2>
+    <div id="wallet" class="page">
+        <h3>My Wallet</h3>
         <div class="card">
-            <p style="margin:0; font-size:14px;">Join Telegram Channel</p>
-            <p style="font-size:12px; opacity:0.6;">Stay updated with real-time CPM</p>
-            <button class="btn-earn" style="font-size:14px; padding:10px;">Join @AsbeksNotifications</button>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>TON Wallet</span>
+                <span id="wallet-status" style="font-size:12px; color:#ff9800;">Disconnected</span>
+            </div>
+            <button class="btn btn-wallet" onclick="connectWallet()">
+                <img src="https://ton.org/download/ton_symbol.png" width="20" alt="TON"> Connect TON Wallet
+            </button>
         </div>
-        <div class="list-item">
-            <div><strong>Watch YouTube</strong><br><small>+0.005 USD</small></div>
-            <span style="color:var(--primary);">Open</span>
+        <div class="card">
+            <p style="font-size:13px; opacity:0.7;">Asset Balance</p>
+            <h2>0.00 TON</h2>
         </div>
     </div>
 
-    <div id="refer" class="page">
-        <h2>Invite Friends</h2>
-        <div class="card" style="text-align:center;">
-            <p>Get **$0.05** for every friend who watches 10 ads!</p>
-            <h4 style="color:var(--primary);">13 friends • $0.65 possible</h4>
-            <button class="btn-earn">Invite Contact</button>
+    <div id="withdraw" class="page">
+        <h3>Withdraw</h3>
+        <div class="card" style="text-align:center; padding:40px 20px;">
+            <p style="opacity:0.7;">Available for Payout</p>
+            <h1 id="withdraw-balance" style="color:var(--accent); margin:10px 0;">$0.00</h1>
+            <p style="font-size:12px;">Min. limit: $1.00</p>
+            <button class="btn" style="background:#222; margin-top:20px;" disabled>Withdraw Locked</button>
+        </div>
+    </div>
+
+    <div id="history" class="page">
+        <h3>Activity History</h3>
+        <div id="history-list">
+            <p style="text-align:center; opacity:0.4; margin-top:30px;">No recent transactions.</p>
         </div>
     </div>
 
     <div class="nav-bar">
-        <div class="nav-item active" onclick="showPage('earn', this)"><i>🏠</i>Earn</div>
-        <div class="nav-item" onclick="showPage('games', this)"><i>🎮</i>Games</div>
-        <div class="nav-item" onclick="showPage('tasks', this)"><i>📈</i>Tasks</div>
-        <div class="nav-item" onclick="showPage('refer', this)"><i>👥</i>Refer</div>
+        <div class="nav-item active" onclick="showPage('earn', this)"><span>🏠</span>Earn</div>
+        <div class="nav-item" onclick="showPage('wallet', this)"><span>💎</span>Wallet</div>
+        <div class="nav-item" onclick="showPage('withdraw', this)"><span>💰</span>Payout</div>
+        <div class="nav-item" onclick="showPage('history', this)"><span>🕒</span>History</div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand();
-        document.getElementById('username').innerText = tg.initDataUnsafe.user?.first_name || "Guest";
+        document.getElementById('username').innerText = tg.initDataUnsafe.user?.first_name || "User";
+
+        // Dynamic State Management
+        let userStats = JSON.parse(localStorage.getItem('ethio_coin_stats')) || {
+            balance: 0,
+            ads: 0,
+            friends: 0,
+            history: []
+        };
+
+        function updateDisplay() {
+            document.getElementById('balance').innerText = `$${userStats.balance.toFixed(6)}`;
+            document.getElementById('withdraw-balance').innerText = `$${userStats.balance.toFixed(2)}`;
+            document.getElementById('total-ads').innerText = userStats.ads;
+            document.getElementById('total-friends').innerText = userStats.friends;
+            
+            const histList = document.getElementById('history-list');
+            if(userStats.history.length > 0) {
+                histList.innerHTML = userStats.history.map(h => 
+                    `<div class="history-item"><span>${h.date}</span><span style="color:var(--accent);">+$${h.amt}</span></div>`
+                ).join('');
+            }
+        }
 
         function showPage(pageId, elm) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
@@ -114,16 +134,27 @@
             elm.classList.add('active');
         }
 
+        function connectWallet() {
+            tg.showAlert("Telegram Wallet API integration is coming soon. Please wait for the next update!");
+        }
+
         const AdController = window.Adsgram.init({ blockId: "23009" });
 
         async function watchAd() {
             try {
                 await AdController.show();
-                tg.showAlert("Baga gammadde! Reward kee dabalameera.");
+                userStats.balance += 0.00036;
+                userStats.ads += 1;
+                userStats.history.unshift({date: new Date().toLocaleTimeString(), amt: '0.00036'});
+                localStorage.setItem('ethio_coin_stats', JSON.stringify(userStats));
+                updateDisplay();
+                tg.showAlert("Success! Reward added to your balance.");
             } catch (e) {
-                tg.showPopup({ message: "Ad not finished. No reward added.", buttons: [{type: 'close'}] });
+                tg.showAlert("Ad skipped. Earn more by watching fully.");
             }
         }
+
+        updateDisplay();
     </script>
 </body>
 </html>
