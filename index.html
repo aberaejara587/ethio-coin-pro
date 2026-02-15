@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="adsgram-site-verification" content="YOUR_TOKEN_HERE">
+    
+    <title>Ethio Coin | Pro Edition</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://adsgram.ai/sdk.js"></script>
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="glass-card">
+            <header>
+                <div class="logo">💎</div>
+                <h1>Ethio Coin</h1>
+                <p id="username">Welcome, Guest</p>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span>Balance</span>
+                    <h2 id="balance">0</h2>
+                </div>
+                <div class="stat-box">
+                    <span>Earned Today</span>
+                    <h2 id="today">0</h2>
+                </div>
+            </div>
+
+            <div class="action-area">
+                <button id="adBtn" onclick="watchAd()">
+                    <span class="icon">📺</span>
+                    <span class="text">Watch Video & Earn</span>
+                    <span class="reward">+100 Pts</span>
+                </button>
+                <p class="hint">Ad completion is verified via postback.</p>
+            </div>
+
+            <div id="status-bar" class="status">System: Ready</div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
