@@ -48,8 +48,13 @@
         .btn-p { background: var(--primary); color: #000; }
         .btn-s { background: var(--card); border: 1px solid var(--glass-border); }
 
-        /* Wallet Box style updated */
-        .address-display { background: rgba(0,0,0,0.3); border-radius: 14px; padding: 15px; margin-top: 15px; display: none; border: 1px dashed var(--primary); font-size: 11px; cursor: pointer; word-break: break-all; font-family: monospace; }
+        /* Wallet Address Styling */
+        .address-display { 
+            background: rgba(0,0,0,0.3); border-radius: 14px; padding: 15px; 
+            margin-top: 15px; display: none; border: 1px dashed var(--primary); 
+            font-size: 11px; cursor: pointer; word-break: break-all; font-family: monospace;
+            color: var(--primary);
+        }
 
         .nav-bar { 
             position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(15, 17, 34, 0.9); 
@@ -94,8 +99,8 @@
         <div class="glass-card" style="text-align: center;">
             <div style="font-size: 40px;">🎁</div>
             <h3>Invite & Earn</h3>
-            <p style="font-size: 14px; opacity: 0.7;">Get 10% of your friends' earnings!</p>
-            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; font-size: 12px; border: 1px solid var(--glass-border); margin: 20px 0; word-break: break-all;" id="ref-link-display">Loading link...</div>
+            <p style="font-size: 14px; opacity: 0.7;">Share your link and get 10% of your friends' earnings!</p>
+            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; font-size: 12px; border: 1px solid var(--glass-border); margin: 20px 0; word-break: break-all;" id="ref-link-display">Loading...</div>
             <button class="btn btn-p" style="width: 100%; flex-direction: row; justify-content: center; gap: 10px;" onclick="copyRefLink()">
                 <span>🔗</span> Copy Invite Link
             </button>
@@ -104,11 +109,7 @@
 
     <div id="games" class="page">
         <h2 style="text-align:center;">Games</h2>
-        <div class="glass-card" style="text-align:center; padding: 50px 20px;">
-            <div style="font-size: 40px;">🎮</div>
-            <h3>Coming Soon!</h3>
-            <p style="opacity:0.6;">New games are being developed.</p>
-        </div>
+        <div class="glass-card" style="text-align:center;">Coming Soon!</div>
     </div>
 
     <div id="wallet" class="page">
@@ -150,7 +151,7 @@
             tg.showAlert("Link copied!");
         }
 
-        // TON Connect with attach=wallet
+        // TON Connect Logic
         const connector = new TonConnectSDK.TonConnect({ manifestUrl: 'https://ethio-coin-pro.vercel.app/tonconnect-manifest.json' });
 
         async function connectTonWallet() {
@@ -166,9 +167,12 @@
             if (wallet) {
                 const addr = wallet.account.address;
                 const box = document.getElementById('wallet-address-box');
-                box.innerHTML = `<strong>Connected:</strong><br>${addr}<br><small>(Tap to copy)</small>`;
+                
+                // Address guutuu display gochuuf (contents duraa hin jijjiiramne)
+                box.innerHTML = `<strong>Connected Wallet:</strong><br>${addr}<br><small>(Tap to copy)</small>`;
                 box.dataset.full = addr; 
                 box.style.display = 'block';
+                
                 document.getElementById('connect-btn').innerText = "Wallet Linked ✅";
                 document.getElementById('connect-btn').style.opacity = "0.7";
             }
@@ -179,11 +183,10 @@
             if(addr) {
                 navigator.clipboard.writeText(addr);
                 tg.showAlert("Address Copied!");
-                tg.HapticFeedback.notificationOccurred('success');
             }
         }
 
-        // Balance & UI
+        // Ads & Balance
         let data = JSON.parse(localStorage.getItem('asbeks_data')) || { balance: 0 };
         const AdController = window.Adsgram.init({ blockId: "23024" });
 
@@ -197,7 +200,6 @@
         }
 
         function showPage(id, el) {
-            tg.HapticFeedback.impactOccurred('light');
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
             document.getElementById(id).classList.add('active-page');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -213,14 +215,14 @@
             tg.openTelegramLink("https://t.me/wallet/start?startapp=receive-TON");
         }
 
-        // Bubbles background
+        // Bubbles Background
         const bg = document.getElementById('bg');
-        for(let i=0; i<12; i++) {
+        for(let i=0; i<10; i++) {
             const b = document.createElement('div'); b.className = 'bubble';
-            const size = Math.random() * 70 + 20 + 'px';
+            const size = Math.random() * 60 + 20 + 'px';
             b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + '%';
-            b.style.animationDelay = Math.random() * 10 + 's';
+            b.style.animationDelay = Math.random() * 8 + 's';
             bg.appendChild(b);
         }
         updateUI();
