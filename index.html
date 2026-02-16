@@ -48,12 +48,11 @@
         .btn-p { background: var(--primary); color: #000; }
         .btn-s { background: var(--card); border: 1px solid var(--glass-border); }
 
-        /* Wallet Address Styling */
         .address-display { 
             background: rgba(0,0,0,0.3); border-radius: 14px; padding: 15px; 
             margin-top: 15px; display: none; border: 1px dashed var(--primary); 
             font-size: 11px; cursor: pointer; word-break: break-all; font-family: monospace;
-            color: var(--primary);
+            color: var(--primary); text-align: center;
         }
 
         .nav-bar { 
@@ -141,7 +140,6 @@
         const userId = tg.initDataUnsafe.user?.id || "guest";
         document.getElementById('user-name').innerText = tg.initDataUnsafe.user?.first_name || "Citizen";
 
-        // Referral link
         const botUsername = "EthioCoinBot"; 
         const refLink = `https://t.me/${botUsername}?start=${userId}`;
         document.getElementById('ref-link-display').innerText = refLink;
@@ -151,7 +149,6 @@
             tg.showAlert("Link copied!");
         }
 
-        // TON Connect Logic
         const connector = new TonConnectSDK.TonConnect({ manifestUrl: 'https://ethio-coin-pro.vercel.app/tonconnect-manifest.json' });
 
         async function connectTonWallet() {
@@ -168,7 +165,7 @@
                 const addr = wallet.account.address;
                 const box = document.getElementById('wallet-address-box');
                 
-                // Address guutuu display gochuuf (contents duraa hin jijjiiramne)
+                // Agarsiisa address koodii kanaan sirreessine
                 box.innerHTML = `<strong>Connected Wallet:</strong><br>${addr}<br><small>(Tap to copy)</small>`;
                 box.dataset.full = addr; 
                 box.style.display = 'block';
@@ -186,7 +183,6 @@
             }
         }
 
-        // Ads & Balance
         let data = JSON.parse(localStorage.getItem('asbeks_data')) || { balance: 0 };
         const AdController = window.Adsgram.init({ blockId: "23024" });
 
@@ -215,7 +211,6 @@
             tg.openTelegramLink("https://t.me/wallet/start?startapp=receive-TON");
         }
 
-        // Bubbles Background
         const bg = document.getElementById('bg');
         for(let i=0; i<10; i++) {
             const b = document.createElement('div'); b.className = 'bubble';
