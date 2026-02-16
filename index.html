@@ -14,83 +14,49 @@
     
     <style>
         :root { 
-            --bg: #05070a;
-            --card: rgba(255, 255, 255, 0.05);
-            --primary: #00d084; 
-            --accent: #5bc0f8;
-            --text: #ffffff;
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg: #05070a; --card: rgba(255, 255, 255, 0.05); --primary: #00d084; 
+            --accent: #5bc0f8; --text: #ffffff; --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         body { 
-            margin: 0; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            padding-bottom: 100px;
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at top left, rgba(0, 208, 132, 0.15), transparent 40%),
-                radial-gradient(circle at bottom right, rgba(91, 192, 248, 0.1), transparent 40%);
+            margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); 
+            padding-bottom: 110px; min-height: 100vh; overflow-x: hidden;
+            background-image: radial-gradient(circle at top left, rgba(0, 208, 132, 0.15), transparent 40%);
         }
 
-        /* Animated Particles */
         .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .bubble { position: absolute; background: var(--primary); border-radius: 50%; opacity: 0.1; animation: rise 15s infinite linear; }
-        @keyframes rise { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 50% { opacity: 0.2; } 100% { transform: translateY(-20vh) scale(1.5); opacity: 0; } }
+        @keyframes rise { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 100% { transform: translateY(-20vh) scale(1.5); opacity: 0; } }
 
-        /* Typography & Layout */
-        .header { padding: 25px 20px; text-align: center; }
-        .user-badge { background: var(--card); padding: 6px 16px; border-radius: 20px; font-size: 13px; border: 1px solid var(--glass-border); display: inline-block; }
+        .header { padding: 20px; text-align: center; }
+        .user-badge { background: var(--card); padding: 6px 16px; border-radius: 20px; font-size: 13px; border: 1px solid var(--glass-border); }
 
-        .page { display: none; padding: 0 16px; animation: slideUp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); }
+        .page { display: none; padding: 0 16px; animation: slideUp 0.4s ease-out; }
         .active-page { display: block; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Premium Cards */
         .glass-card { 
-            background: var(--card); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 28px; 
-            padding: 24px; 
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            background: var(--card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: 28px; padding: 24px; border: 1px solid var(--glass-border); margin-bottom: 15px;
         }
 
-        .balance-label { font-size: 12px; font-weight: 600; opacity: 0.5; letter-spacing: 2px; text-transform: uppercase; }
         .balance-amt { font-size: 44px; font-weight: 800; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 8px 0; }
-
-        /* Pro Buttons */
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 25px; }
-        .btn { 
-            border-radius: 18px; padding: 16px; border: none; color: white; 
-            font-weight: 700; cursor: pointer; transition: 0.3s;
-            display: flex; flex-direction: column; align-items: center; gap: 6px;
-        }
+        
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .btn { border-radius: 18px; padding: 15px; border: none; color: white; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .btn:active { transform: scale(0.95); }
         .btn-p { background: var(--primary); color: #000; }
         .btn-s { background: var(--card); border: 1px solid var(--glass-border); }
 
-        /* Wallet Specifics */
-        .address-display { 
-            background: rgba(0,0,0,0.3); border-radius: 14px; padding: 12px; 
-            margin-top: 15px; display: none; border: 1px dashed var(--primary);
-            font-family: monospace; font-size: 11px; word-break: break-all;
-            position: relative; cursor: pointer;
-        }
+        .address-display { background: rgba(0,0,0,0.3); border-radius: 14px; padding: 12px; margin-top: 15px; display: none; border: 1px dashed var(--primary); font-size: 11px; cursor: pointer; }
 
-        /* Nav Bar */
         .nav-bar { 
-            position: fixed; bottom: 15px; left: 15px; right: 15px; 
-            background: rgba(15, 17, 34, 0.85); backdrop-filter: blur(20px);
-            display: flex; justify-content: space-around; padding: 12px; 
-            border-radius: 24px; border: 1px solid var(--glass-border); z-index: 1000;
+            position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(15, 17, 34, 0.9); 
+            display: flex; justify-content: space-around; padding: 12px; border-radius: 24px; border: 1px solid var(--glass-border); z-index: 1000;
         }
         .nav-item { text-align: center; font-size: 11px; opacity: 0.4; transition: 0.3s; flex: 1; }
-        .nav-item.active { opacity: 1; color: var(--primary); transform: translateY(-2px); }
-        .nav-icon { font-size: 20px; margin-bottom: 4px; display: block; }
+        .nav-item.active { opacity: 1; color: var(--primary); }
+        .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
     </style>
 </head>
 <body>
@@ -103,54 +69,61 @@
 
     <div id="earn" class="page active-page">
         <div class="glass-card">
-            <div class="balance-label">Total Balance</div>
+            <div style="font-size: 12px; opacity: 0.6; letter-spacing: 1px;">TOTAL EARNINGS</div>
             <div class="balance-amt" id="main-balance">$0.000000</div>
-            
             <div class="action-grid">
-                <button class="btn btn-p" onclick="handleAd(0.00025)">
-                    <span style="font-size:18px">▶</span> Earn 0.00025
-                </button>
-                <button class="btn btn-s" onclick="handleAd(0.00039)">
-                    <span style="font-size:18px">📺</span> Earn 0.00039
-                </button>
-                <button class="btn btn-s" onclick="showPage('wallet', document.querySelectorAll('.nav-item')[3])">
-                    <span>💳</span> Withdraw
-                </button>
-                <button class="btn btn-s" onclick="depositFunds()">
-                    <span>➕</span> Deposit
-                </button>
+                <button class="btn btn-p" onclick="handleAd(0.00025)"><span>▶</span> Earn 0.00025</button>
+                <button class="btn btn-s" onclick="handleAd(0.00039)"><span>📺</span> Earn 0.00039</button>
+                <button class="btn btn-s" onclick="showPage('wallet', document.querySelectorAll('.nav-item')[4])"><span>💳</span> Withdraw</button>
+                <button class="btn btn-s" onclick="depositFunds()"><span>➕</span> Deposit</button>
             </div>
         </div>
     </div>
 
-    <div id="tasks" class="page">
-        <h2 style="margin:0 0 20px 0">Quests</h2>
-        <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
-            <div>
-                <div style="font-weight:800">Master Video Task</div>
-                <div style="color:var(--primary); font-size:14px">+$0.00050</div>
+    <div id="friends" class="page">
+        <h2 style="margin-top:0">Invite Friends</h2>
+        <div class="glass-card" style="text-align: center;">
+            <div style="font-size: 40px;">🎁</div>
+            <h3>Invite & Earn</h3>
+            <p style="font-size: 14px; opacity: 0.7;">Share your link and get 10% of your friends' earnings!</p>
+            
+            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; font-size: 12px; border: 1px solid var(--glass-border); margin: 20px 0; word-break: break-all;" id="ref-link-display">
+                Loading your link...
             </div>
+
+            <button class="btn btn-p" style="width: 100%; flex-direction: row; justify-content: center; gap: 10px;" onclick="copyRefLink()">
+                <span>🔗</span> Copy Invite Link
+            </button>
+        </div>
+    </div>
+
+    <div id="tasks" class="page">
+        <h2 style="margin-top:0">Daily Quests</h2>
+        <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
+            <div><div style="font-weight:800">Video Quest</div><div style="color:var(--primary); font-size:14px">+$0.00050</div></div>
             <button class="btn btn-p" style="padding:10px 20px" onclick="handleAd(0.00050)">Start</button>
         </div>
     </div>
 
     <div id="wallet" class="page">
         <div class="glass-card" style="text-align: center;">
-            <div class="balance-label">Wallet Balance</div>
+            <div style="font-size: 12px; opacity: 0.6;">WALLET BALANCE</div>
             <h1 class="balance-amt" id="wallet-balance" style="font-size:36px">$0.0000</h1>
-            
             <div id="wallet-address-box" class="address-display" onclick="copyAddress()"></div>
-
-            <button id="connect-btn" class="btn btn-p" style="width:100%; margin-top:20px; font-size:16px;" onclick="connectTonWallet()">
-                Connect TON Wallet
-            </button>
+            <button id="connect-btn" class="btn btn-p" style="width:100%; margin-top:20px;" onclick="connectTonWallet()">Connect TON Wallet</button>
         </div>
+    </div>
+
+    <div id="games" class="page">
+        <h2 style="text-align:center;">Games</h2>
+        <div class="glass-card" style="text-align:center;">Coming Soon!</div>
     </div>
 
     <div class="nav-bar">
         <div class="nav-item active" onclick="showPage('earn', this)"><span class="nav-icon">🏠</span>Home</div>
-        <div id="games-nav" class="nav-item" onclick="showPage('games', this)"><span class="nav-icon">🎮</span>Games</div>
         <div class="nav-item" onclick="showPage('tasks', this)"><span class="nav-icon">📈</span>Tasks</div>
+        <div class="nav-item" onclick="showPage('friends', this)"><span class="nav-icon">👥</span>Friends</div>
+        <div class="nav-item" onclick="showPage('games', this)"><span class="nav-icon">🎮</span>Games</div>
         <div class="nav-item" onclick="showPage('wallet', this)"><span class="nav-icon">💰</span>Wallet</div>
     </div>
 
@@ -159,20 +132,25 @@
         tg.expand();
         tg.ready();
 
-        // Appearance
+        const userId = tg.initDataUnsafe.user?.id || "guest";
         document.getElementById('user-name').innerText = tg.initDataUnsafe.user?.first_name || "Citizen";
 
-        // TON Connect Setup
-        const connector = new TonConnectSDK.TonConnect({
-            manifestUrl: 'https://ethio-coin-pro.vercel.app/tonconnect-manifest.json'
-        });
+        // Referral Link Logic (Change 'YourBotName' to your real bot username)
+        const botUsername = "EthioCoinBot"; 
+        const refLink = `https://t.me/${botUsername}?start=${userId}`;
+        document.getElementById('ref-link-display').innerText = refLink;
 
+        function copyRefLink() {
+            navigator.clipboard.writeText(refLink);
+            tg.HapticFeedback.notificationOccurred('success');
+            tg.showAlert("Invite link copied! Send it to your friends.");
+        }
+
+        // TON Connect
+        const connector = new TonConnectSDK.TonConnect({ manifestUrl: 'https://ethio-coin-pro.vercel.app/tonconnect-manifest.json' });
         async function connectTonWallet() {
             tg.HapticFeedback.impactOccurred('medium');
-            const walletLink = connector.connect({
-                universalLink: 'https://t.me/wallet/start?startapp=tonconnect',
-                bridgeUrl: 'https://bridge.tonapi.io/bridge'
-            });
+            const walletLink = connector.connect({ universalLink: 'https://t.me/wallet/start?startapp=tonconnect', bridgeUrl: 'https://bridge.tonapi.io/bridge' });
             tg.openTelegramLink(walletLink);
         }
 
@@ -184,13 +162,10 @@
         connector.onStatusChange(wallet => {
             if (wallet) {
                 const addr = wallet.account.address;
-                const display = addr.substring(0, 6) + "..." + addr.substring(addr.length - 6);
                 const box = document.getElementById('wallet-address-box');
-                box.innerHTML = `Connected: ${display} <br> <small style="opacity:0.5">(Tap to copy full address)</small>`;
-                box.dataset.full = addr;
-                box.style.display = 'block';
-                document.getElementById('connect-btn').innerText = "Wallet Linked ✅";
-                document.getElementById('connect-btn').classList.replace('btn-p', 'btn-s');
+                box.innerHTML = `Connected: ${addr.substring(0,6)}...${addr.substring(addr.length-6)} <br><small>Tap to copy</small>`;
+                box.dataset.full = addr; box.style.display = 'block';
+                document.getElementById('connect-btn').innerText = "Linked ✅";
             }
         });
 
@@ -198,10 +173,10 @@
             const addr = document.getElementById('wallet-address-box').dataset.full;
             navigator.clipboard.writeText(addr);
             tg.HapticFeedback.notificationOccurred('success');
-            tg.showAlert("Address copied to clipboard!");
+            tg.showAlert("Address Copied!");
         }
 
-        // Ad Management
+        // Ads
         const AdController = window.Adsgram.init({ blockId: "23024" });
         let data = JSON.parse(localStorage.getItem('asbeks_data')) || { balance: 0 };
 
@@ -213,13 +188,9 @@
                 localStorage.setItem('asbeks_data', JSON.stringify(data));
                 updateUI();
                 tg.HapticFeedback.notificationOccurred('success');
-                tg.showAlert(`Verified! You earned $${amount}`);
-            } catch (e) {
-                tg.showAlert("Ad not ready. Try again in 5 seconds.");
-            }
+            } catch (e) { tg.showAlert("Video not ready. Try again."); }
         }
 
-        // Logic
         function showPage(id, el) {
             tg.HapticFeedback.impactOccurred('light');
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
@@ -233,18 +204,15 @@
             document.getElementById('wallet-balance').innerText = `$${data.balance.toFixed(4)}`;
         }
 
-        // Fancy Particles
         const bg = document.getElementById('bg');
         for(let i=0; i<12; i++) {
-            const b = document.createElement('div');
-            b.className = 'bubble';
+            const b = document.createElement('div'); b.className = 'bubble';
             const size = Math.random() * 80 + 20 + 'px';
             b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + '%';
             b.style.animationDelay = Math.random() * 10 + 's';
             bg.appendChild(b);
         }
-
         updateUI();
     </script>
 </body>
