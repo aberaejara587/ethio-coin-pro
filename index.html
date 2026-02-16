@@ -44,7 +44,7 @@
         .btn-deposit { background: #4c4699; }
 
         .wallet-card { background: linear-gradient(145deg, #1e2440, #161a2e); border-radius: 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 10px; }
-        .btn-connect { background: var(--primary); color: #000; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 800; margin-top: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-connect { background: var(--primary); color: #000; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 800; margin-top: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
         
         .task-card { background: var(--card); border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
 
@@ -101,7 +101,7 @@
                 <p style="font-size: 11px; opacity: 0.5; margin-top: 10px;">Min. Withdrawal: $1.00</p>
             </div>
             
-            <button class="btn-connect" onclick="tg.showAlert('TON Wallet integration coming soon!')">
+            <button class="btn-connect" onclick="connectWallet()">
                 <img src="https://ton.org/download/ton_symbol.png" width="20" alt="ton"> Connect TON Wallet
             </button>
         </div>
@@ -150,7 +150,13 @@
             el.classList.add('active');
         }
 
-        // Unit ID haaraa kanaan bakka buufameera
+        // TON Wallet Connect Function
+        function connectWallet() {
+            // Kallattiin gara Telegram Wallet t.me/wallet geessa
+            tg.openTelegramLink("https://t.me/wallet");
+        }
+
+        // Unit ID 23024 sirriitti galfameera
         const AdController = window.Adsgram.init({ blockId: "23024" });
 
         async function watchAd(amount) {
@@ -161,7 +167,7 @@
                 updateUI();
                 tg.showAlert(`Success! Earned $${amount}`);
             } catch (e) {
-                tg.showAlert("Ad skipped or error occurred.");
+                tg.showAlert("Ad skipped or not ready. Status: In Moderation.");
             }
         }
         updateUI();
