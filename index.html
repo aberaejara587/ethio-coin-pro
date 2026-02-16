@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="adsgram-site-verification" content="YOUR_TAG_HERE">
     <title>Ethio Coin Pro | Asbeks</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
@@ -42,26 +41,24 @@
 
         .balance-amt { font-size: 44px; font-weight: 800; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 8px 0; }
         
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn { border-radius: 18px; padding: 15px; border: none; color: white; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
-        .btn:active { transform: scale(0.95); }
-        .btn-p { background: var(--primary); color: #000; }
-        .btn-s { background: var(--card); border: 1px solid var(--glass-border); }
+        .btn { border-radius: 18px; padding: 15px; border: none; color: white; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-p { background: var(--primary); color: #000; width: 100%; }
+        .btn-s { background: var(--card); border: 1px solid var(--glass-border); width: 100%; color: white; }
 
         /* Wallet Address Styling */
-        .address-display { 
-            background: rgba(0,0,0,0.4); border-radius: 14px; padding: 15px; margin-top: 15px; 
-            display: none; border: 1px dashed var(--primary); font-size: 12px; cursor: pointer;
-            word-break: break-all; color: var(--primary); text-align: center;
+        .address-box { 
+            background: rgba(0, 208, 132, 0.05); border: 1px dashed var(--primary); 
+            border-radius: 16px; padding: 15px; margin-top: 20px; display: none; cursor: pointer;
         }
+        .addr-text { font-family: monospace; color: var(--primary); font-size: 13px; word-break: break-all; }
 
         .nav-bar { 
-            position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(15, 17, 34, 0.9); 
+            position: fixed; bottom: 15px; left: 15px; right: 15px; background: rgba(15, 17, 34, 0.95); 
             display: flex; justify-content: space-around; padding: 12px; border-radius: 24px; border: 1px solid var(--glass-border); z-index: 1000;
         }
-        .nav-item { text-align: center; font-size: 11px; opacity: 0.4; transition: 0.3s; flex: 1; color: white; cursor: pointer; }
+        .nav-item { text-align: center; font-size: 11px; opacity: 0.4; flex: 1; color: white; cursor: pointer; }
         .nav-item.active { opacity: 1; color: var(--primary); }
-        .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
+        .nav-icon { font-size: 20px; display: block; }
     </style>
 </head>
 <body>
@@ -73,14 +70,12 @@
     </div>
 
     <div id="earn" class="page active-page">
-        <div class="glass-card">
-            <div style="font-size: 12px; opacity: 0.6; letter-spacing: 1px;">TOTAL EARNINGS</div>
+        <div class="glass-card" style="text-align: center;">
+            <div style="font-size: 12px; opacity: 0.6;">TOTAL EARNINGS</div>
             <div class="balance-amt" id="main-balance">$0.000000</div>
-            <div class="action-grid">
-                <button class="btn btn-p" onclick="handleAd(0.00025)"><span>▶</span> Earn 0.00025</button>
-                <button class="btn btn-s" onclick="handleAd(0.00039)"><span>📺</span> Earn 0.00039</button>
-                <button class="btn btn-s" onclick="showPage('wallet', document.querySelectorAll('.nav-item')[4])"><span>💳</span> Withdraw</button>
-                <button class="btn btn-s" onclick="depositFunds()"><span>➕</span> Deposit</button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-p" onclick="handleAd(0.00025)">▶ Earn</button>
+                <button class="btn btn-s" onclick="depositFunds()">💰 Deposit</button>
             </div>
         </div>
     </div>
@@ -88,56 +83,42 @@
     <div id="friends" class="page">
         <h2 style="margin-top:0">Invite Friends</h2>
         <div class="glass-card" style="text-align: center;">
-            <div style="font-size: 40px;">🎁</div>
-            <h3>Invite & Earn</h3>
-            <p style="font-size: 14px; opacity: 0.7;">Share your link and get 10% bonus from your friends' tasks!</p>
-            
-            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; font-size: 11px; border: 1px solid var(--glass-border); margin: 20px 0; word-break: break-all; font-family: monospace;" id="ref-link-display">
-                Loading your link...
-            </div>
-
-            <button class="btn btn-p" style="width: 100%; flex-direction: row; justify-content: center; gap: 10px;" onclick="copyRefLink()">
-                <span>🔗</span> Copy Invite Link
-            </button>
+            <p>Invite friends and get 10% bonus!</p>
+            <div id="ref-link" style="background:rgba(0,0,0,0.3); padding:12px; border-radius:12px; font-size:11px; margin-bottom:15px; word-break:break-all;">Loading link...</div>
+            <button class="btn btn-p" onclick="copyRef()">Copy Invite Link</button>
         </div>
     </div>
 
     <div id="tasks" class="page">
-        <h2 style="margin-top:0">Daily Quests</h2>
+        <h2 style="margin-top:0">Daily Tasks</h2>
         <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
-            <div><div style="font-weight:800">Video Quest</div><div style="color:var(--primary); font-size:14px">+$0.00050</div></div>
-            <button class="btn btn-p" style="padding:10px 20px; width:auto;" onclick="handleAd(0.00050)">Start</button>
+            <div><b>Watch Video</b><br><small>+$0.00050</small></div>
+            <button class="btn btn-p" style="width:auto; padding:10px 20px" onclick="handleAd(0.00050)">Start</button>
         </div>
     </div>
 
     <div id="wallet" class="page">
-        <h2 style="margin-top:0">Finance</h2>
+        <h2 style="text-align: center; margin-top:0;">Wallet</h2>
         <div class="glass-card" style="text-align: center;">
-            <div style="font-size: 12px; opacity: 0.6;">WALLET BALANCE</div>
+            <div style="font-size: 12px; opacity: 0.6;">CURRENT BALANCE</div>
             <h1 class="balance-amt" id="wallet-balance" style="font-size:36px">$0.0000</h1>
             
-            <div id="wallet-address-box" class="address-display" onclick="copyAddress()">
-                <div style="font-size: 10px; color: white; opacity: 0.6; margin-bottom: 4px;">CONNECTED WALLET</div>
-                <div id="addr-text-ui" style="font-weight: bold;"></div>
-                <div style="font-size: 9px; color: white; opacity: 0.4; margin-top: 6px;">(Tap to copy full address)</div>
+            <div id="address-container" class="address-box" onclick="copyAddress()">
+                <div style="font-size: 10px; color: white; opacity: 0.5; margin-bottom: 5px;">CONNECTED WALLET</div>
+                <div id="display-address" class="addr-text">Connecting...</div>
+                <div style="font-size: 9px; color: white; opacity: 0.4; margin-top: 8px;">(Tap to copy address)</div>
             </div>
 
-            <button id="connect-btn" class="btn btn-p" style="width:100%; margin-top:20px; flex-direction: row; justify-content: center; gap:10px;" onclick="connectTonWallet()">
-                <span>💎</span> Connect Telegram Wallet
+            <button id="connect-btn" class="btn btn-p" style="margin-top: 20px;" onclick="connectTonWallet()">
+                Connect Telegram Wallet
             </button>
         </div>
-    </div>
-
-    <div id="games" class="page">
-        <h2 style="text-align:center;">Games</h2>
-        <div class="glass-card" style="text-align:center;">Coming Soon!</div>
     </div>
 
     <div class="nav-bar">
         <div class="nav-item active" onclick="showPage('earn', this)"><span class="nav-icon">🏠</span>Home</div>
         <div class="nav-item" onclick="showPage('tasks', this)"><span class="nav-icon">📈</span>Tasks</div>
         <div class="nav-item" onclick="showPage('friends', this)"><span class="nav-icon">👥</span>Friends</div>
-        <div class="nav-item" onclick="showPage('games', this)"><span class="nav-icon">🎮</span>Games</div>
         <div class="nav-item" onclick="showPage('wallet', this)"><span class="nav-icon">💰</span>Wallet</div>
     </div>
 
@@ -147,82 +128,82 @@
         tg.ready();
 
         const userId = tg.initDataUnsafe.user?.id || "guest";
-        document.getElementById('user-name').innerText = tg.initDataUnsafe.user?.first_name || "Citizen";
+        document.getElementById('user-name').innerText = tg.initDataUnsafe.user?.first_name || "User";
+        document.getElementById('ref-link').innerText = `https://t.me/EthioCoinBot?start=${userId}`;
 
-        // 1. Referral Link System
-        const botUsername = "EthioCoinBot"; // Maqaa bot kee sirrii asitti jijjiiri
-        const refLink = `https://t.me/${botUsername}?start=${userId}`;
-        document.getElementById('ref-link-display').innerText = refLink;
-
-        function copyRefLink() {
-            navigator.clipboard.writeText(refLink);
-            tg.HapticFeedback.notificationOccurred('success');
-            tg.showAlert("Linkii affeerraa kooppii gooteetta! Hiriyaa keetiif ergi.");
-        }
-
-        // 2. TON Connect Configuration
-        const connector = new TonConnectSDK.TonConnect({ 
-            manifestUrl: 'https://ethio-coin-pro.vercel.app/tonconnect-manifest.json' 
+        // TON Connect Initialization
+        const connector = new TonConnectSDK.TonConnect({
+            manifestUrl: 'https://ethio-coin-pro.vercel.app/tonconnect-manifest.json'
         });
 
+        // Function: Connect Wallet
         async function connectTonWallet() {
             tg.HapticFeedback.impactOccurred('medium');
             try {
-                const walletLink = connector.connect({ 
-                    universalLink: 'https://t.me/wallet/start?startapp=tonconnect', 
-                    bridgeUrl: 'https://bridge.tonapi.io/bridge' 
+                const walletLink = connector.connect({
+                    universalLink: 'https://t.me/wallet/start?startapp=tonconnect',
+                    bridgeUrl: 'https://bridge.tonapi.io/bridge'
                 });
                 tg.openTelegramLink(walletLink);
             } catch (e) {
-                tg.showAlert("Wallet connection failed. Try again.");
+                tg.showAlert("Connection failed. Check your manifest file.");
             }
         }
 
-        // Listen for Wallet Status Change
+        // Listener: Wallet Status Change
         connector.onStatusChange(wallet => {
             if (wallet) {
-                const addr = wallet.account.address;
-                const box = document.getElementById('wallet-address-box');
-                const uiText = document.getElementById('addr-text-ui');
+                const fullAddress = wallet.account.address;
+                const shortAddress = fullAddress.substring(0, 8) + "..." + fullAddress.substring(fullAddress.length - 8);
                 
-                // Format: UQ...4x
-                uiText.innerText = addr.substring(0, 8) + "..." + addr.substring(addr.length - 8);
-                box.dataset.full = addr; 
-                box.style.display = 'block';
+                document.getElementById('display-address').innerText = shortAddress;
+                document.getElementById('address-container').style.display = 'block';
+                document.getElementById('address-container').dataset.full = fullAddress;
                 
                 const btn = document.getElementById('connect-btn');
-                btn.innerText = "Wallet Connected ✅";
-                btn.classList.replace('btn-p', 'btn-s');
-                btn.disabled = true;
+                btn.innerText = "Wallet Linked ✅";
+                btn.style.opacity = "0.7";
+                btn.onclick = null;
                 
                 tg.HapticFeedback.notificationOccurred('success');
             }
         });
 
         function copyAddress() {
-            const addr = document.getElementById('wallet-address-box').dataset.full;
-            navigator.clipboard.writeText(addr);
-            tg.HapticFeedback.notificationOccurred('success');
-            tg.showAlert("Address kooppii ta'eera!");
+            const addr = document.getElementById('address-container').dataset.full;
+            navigator.clipboard.writeText(addr).then(() => {
+                tg.showAlert("Address copied!");
+                tg.HapticFeedback.notificationOccurred('success');
+            });
+        }
+
+        function copyRef() {
+            const link = document.getElementById('ref-link').innerText;
+            navigator.clipboard.writeText(link);
+            tg.showAlert("Referral link copied!");
         }
 
         function depositFunds() {
             tg.openTelegramLink("https://t.me/wallet/start?startapp=receive-TON");
         }
 
-        // 3. UI and Ads
-        const AdController = window.Adsgram.init({ blockId: "23024" });
+        // UI & Ads Logic
         let data = JSON.parse(localStorage.getItem('asbeks_data')) || { balance: 0 };
+        const AdController = window.Adsgram.init({ blockId: "23024" });
 
         async function handleAd(amount) {
-            tg.HapticFeedback.impactOccurred('medium');
             try {
                 await AdController.show();
                 data.balance += amount;
                 localStorage.setItem('asbeks_data', JSON.stringify(data));
                 updateUI();
                 tg.HapticFeedback.notificationOccurred('success');
-            } catch (e) { tg.showAlert("Video is not ready."); }
+            } catch (e) { tg.showAlert("Ad not ready."); }
+        }
+
+        function updateUI() {
+            document.getElementById('main-balance').innerText = `$${data.balance.toFixed(6)}`;
+            document.getElementById('wallet-balance').innerText = `$${data.balance.toFixed(4)}`;
         }
 
         function showPage(id, el) {
@@ -233,19 +214,12 @@
             el.classList.add('active');
         }
 
-        function updateUI() {
-            document.getElementById('main-balance').innerText = `$${data.balance.toFixed(6)}`;
-            document.getElementById('wallet-balance').innerText = `$${data.balance.toFixed(4)}`;
-        }
-
-        // Background Animation
+        // Bubbles Animation
         const bg = document.getElementById('bg');
         for(let i=0; i<12; i++) {
             const b = document.createElement('div'); b.className = 'bubble';
-            const size = Math.random() * 70 + 20 + 'px';
-            b.style.width = size; b.style.height = size;
-            b.style.left = Math.random() * 100 + '%';
-            b.style.animationDelay = Math.random() * 10 + 's';
+            const s = Math.random()*60 + 20 + 'px'; b.style.width = s; b.style.height = s;
+            b.style.left = Math.random()*100 + '%'; b.style.animationDelay = Math.random()*5 + 's';
             bg.appendChild(b);
         }
         updateUI();
