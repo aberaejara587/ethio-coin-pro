@@ -1,4 +1,4 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -43,15 +43,16 @@
         .balance-amt { font-size: 44px; font-weight: 800; background: linear-gradient(to right, #fff, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 8px 0; }
         
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn { border-radius: 18px; padding: 15px; border: none; color: white; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .btn { border-radius: 18px; padding: 15px; border: none; color: white; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; }
         .btn:active { transform: scale(0.95); }
         .btn-p { background: var(--primary); color: #000; }
         .btn-s { background: var(--card); border: 1px solid var(--glass-border); }
 
+        /* Wallet Address Styling */
         .address-display { 
-            background: rgba(0,0,0,0.3); border-radius: 14px; padding: 15px; margin-top: 15px; 
+            background: rgba(0,0,0,0.4); border-radius: 14px; padding: 15px; margin-top: 15px; 
             display: none; border: 1px dashed var(--primary); font-size: 12px; cursor: pointer;
-            word-break: break-all; color: var(--primary);
+            word-break: break-all; color: var(--primary); text-align: center;
         }
 
         .nav-bar { 
@@ -89,10 +90,10 @@
         <div class="glass-card" style="text-align: center;">
             <div style="font-size: 40px;">🎁</div>
             <h3>Invite & Earn</h3>
-            <p style="font-size: 14px; opacity: 0.7;">Get 10% from your friends' earnings instantly!</p>
+            <p style="font-size: 14px; opacity: 0.7;">Share your link and get 10% bonus from your friends' tasks!</p>
             
-            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; font-size: 12px; border: 1px solid var(--glass-border); margin: 20px 0; word-break: break-all; font-family: monospace;" id="ref-link-display">
-                Loading...
+            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 15px; font-size: 11px; border: 1px solid var(--glass-border); margin: 20px 0; word-break: break-all; font-family: monospace;" id="ref-link-display">
+                Loading your link...
             </div>
 
             <button class="btn btn-p" style="width: 100%; flex-direction: row; justify-content: center; gap: 10px;" onclick="copyRefLink()">
@@ -105,20 +106,20 @@
         <h2 style="margin-top:0">Daily Quests</h2>
         <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
             <div><div style="font-weight:800">Video Quest</div><div style="color:var(--primary); font-size:14px">+$0.00050</div></div>
-            <button class="btn btn-p" style="padding:10px 20px; width: auto;" onclick="handleAd(0.00050)">Start</button>
+            <button class="btn btn-p" style="padding:10px 20px; width:auto;" onclick="handleAd(0.00050)">Start</button>
         </div>
     </div>
 
     <div id="wallet" class="page">
-        <h2 style="margin-top:0">My Wallet</h2>
+        <h2 style="margin-top:0">Finance</h2>
         <div class="glass-card" style="text-align: center;">
             <div style="font-size: 12px; opacity: 0.6;">WALLET BALANCE</div>
             <h1 class="balance-amt" id="wallet-balance" style="font-size:36px">$0.0000</h1>
             
             <div id="wallet-address-box" class="address-display" onclick="copyAddress()">
-                <div style="font-size: 10px; color: white; opacity: 0.6; margin-bottom: 5px;">CONNECTED ADDRESS</div>
-                <div id="addr-text-ui"></div>
-                <div style="font-size: 9px; color: white; opacity: 0.4; margin-top: 5px;">(Tap to copy full address)</div>
+                <div style="font-size: 10px; color: white; opacity: 0.6; margin-bottom: 4px;">CONNECTED WALLET</div>
+                <div id="addr-text-ui" style="font-weight: bold;"></div>
+                <div style="font-size: 9px; color: white; opacity: 0.4; margin-top: 6px;">(Tap to copy full address)</div>
             </div>
 
             <button id="connect-btn" class="btn btn-p" style="width:100%; margin-top:20px; flex-direction: row; justify-content: center; gap:10px;" onclick="connectTonWallet()">
@@ -148,45 +149,51 @@
         const userId = tg.initDataUnsafe.user?.id || "guest";
         document.getElementById('user-name').innerText = tg.initDataUnsafe.user?.first_name || "Citizen";
 
-        // 1. Referral Link Logic
-        const botUsername = "EthioCoinBot"; // Bakka kana maqaa bot keetiin jijjiiri
+        // 1. Referral Link System
+        const botUsername = "EthioCoinBot"; // Maqaa bot kee sirrii asitti jijjiiri
         const refLink = `https://t.me/${botUsername}?start=${userId}`;
         document.getElementById('ref-link-display').innerText = refLink;
 
         function copyRefLink() {
             navigator.clipboard.writeText(refLink);
             tg.HapticFeedback.notificationOccurred('success');
-            tg.showAlert("Linkii affeerraa kooppii gooteetta!");
+            tg.showAlert("Linkii affeerraa kooppii gooteetta! Hiriyaa keetiif ergi.");
         }
 
-        // 2. TON Connect & Wallet Display
+        // 2. TON Connect Configuration
         const connector = new TonConnectSDK.TonConnect({ 
             manifestUrl: 'https://ethio-coin-pro.vercel.app/tonconnect-manifest.json' 
         });
 
         async function connectTonWallet() {
             tg.HapticFeedback.impactOccurred('medium');
-            const walletLink = connector.connect({ 
-                universalLink: 'https://t.me/wallet/start?startapp=tonconnect', 
-                bridgeUrl: 'https://bridge.tonapi.io/bridge' 
-            });
-            tg.openTelegramLink(walletLink);
+            try {
+                const walletLink = connector.connect({ 
+                    universalLink: 'https://t.me/wallet/start?startapp=tonconnect', 
+                    bridgeUrl: 'https://bridge.tonapi.io/bridge' 
+                });
+                tg.openTelegramLink(walletLink);
+            } catch (e) {
+                tg.showAlert("Wallet connection failed. Try again.");
+            }
         }
 
+        // Listen for Wallet Status Change
         connector.onStatusChange(wallet => {
             if (wallet) {
                 const addr = wallet.account.address;
                 const box = document.getElementById('wallet-address-box');
                 const uiText = document.getElementById('addr-text-ui');
                 
-                // Address gabaabsanii agarsiisuu (e.g., UQ...4x)
+                // Format: UQ...4x
                 uiText.innerText = addr.substring(0, 8) + "..." + addr.substring(addr.length - 8);
                 box.dataset.full = addr; 
                 box.style.display = 'block';
                 
-                document.getElementById('connect-btn').innerText = "Wallet Linked ✅";
-                document.getElementById('connect-btn').disabled = true;
-                document.getElementById('connect-btn').style.opacity = "0.6";
+                const btn = document.getElementById('connect-btn');
+                btn.innerText = "Wallet Connected ✅";
+                btn.classList.replace('btn-p', 'btn-s');
+                btn.disabled = true;
                 
                 tg.HapticFeedback.notificationOccurred('success');
             }
@@ -196,14 +203,14 @@
             const addr = document.getElementById('wallet-address-box').dataset.full;
             navigator.clipboard.writeText(addr);
             tg.HapticFeedback.notificationOccurred('success');
-            tg.showAlert("Wallet address kooppii gooteetta!");
+            tg.showAlert("Address kooppii ta'eera!");
         }
 
         function depositFunds() {
             tg.openTelegramLink("https://t.me/wallet/start?startapp=receive-TON");
         }
 
-        // 3. Page & Ads Logic
+        // 3. UI and Ads
         const AdController = window.Adsgram.init({ blockId: "23024" });
         let data = JSON.parse(localStorage.getItem('asbeks_data')) || { balance: 0 };
 
@@ -215,7 +222,7 @@
                 localStorage.setItem('asbeks_data', JSON.stringify(data));
                 updateUI();
                 tg.HapticFeedback.notificationOccurred('success');
-            } catch (e) { tg.showAlert("Video ammaaf hin jiru."); }
+            } catch (e) { tg.showAlert("Video is not ready."); }
         }
 
         function showPage(id, el) {
@@ -231,11 +238,11 @@
             document.getElementById('wallet-balance').innerText = `$${data.balance.toFixed(4)}`;
         }
 
-        // Bubbles
+        // Background Animation
         const bg = document.getElementById('bg');
-        for(let i=0; i<10; i++) {
+        for(let i=0; i<12; i++) {
             const b = document.createElement('div'); b.className = 'bubble';
-            const size = Math.random() * 60 + 20 + 'px';
+            const size = Math.random() * 70 + 20 + 'px';
             b.style.width = size; b.style.height = size;
             b.style.left = Math.random() * 100 + '%';
             b.style.animationDelay = Math.random() * 10 + 's';
@@ -244,4 +251,4 @@
         updateUI();
     </script>
 </body>
-</html>    
+</html>
