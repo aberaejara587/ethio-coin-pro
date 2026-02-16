@@ -1,5 +1,7 @@
 {
   "url": "https://ethio-coin-pro.vercel.app",
-  "name": "Ethio Coin",
-  "iconUrl": "https://ton.org/download/ton_symbol.png"
+  "name": "Ethio Coin Pro",
+  "iconUrl": "https://ethio-coin-pro.vercel.app/icon.png",
+  "termsOfUseUrl": "https://ethio-coin-pro.vercel.app/terms",
+  "privacyPolicyUrl": "https://ethio-coin-pro.vercel.app/privacy"
 }
