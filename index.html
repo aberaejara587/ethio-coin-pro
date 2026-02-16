@@ -24,7 +24,7 @@
                 radial-gradient(circle at 90% 80%, rgba(36, 139, 207, 0.05) 0%, transparent 40%);
         }
 
-        /* Animation */
+        /* Bubbles Animation */
         .bg-animation { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .bubble { position: absolute; background: rgba(0, 208, 132, 0.1); border-radius: 50%; filter: blur(5px); animation: rise 12s infinite linear; bottom: -100px; }
         @keyframes rise { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-110vh); opacity: 0; } }
@@ -47,14 +47,15 @@
         .wallet-card { background: linear-gradient(145deg, #1e2440, #161a2e); border-radius: 20px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); margin-top: 10px; }
         .btn-connect { background: var(--primary); color: #000; width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: 800; margin-top: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
         
-        /* Address UI */
-        .address-box { font-size: 11px; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 12px; margin-top: 15px; word-break: break-all; color: var(--primary); border: 1px dashed var(--primary); display: none; }
+        /* Address Display Style */
+        .address-box { font-size: 10px; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 12px; margin-top: 15px; word-break: break-all; color: var(--primary); border: 1px dashed var(--primary); text-align: left; display: none; }
 
         .task-card { background: var(--card); border-radius: 18px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255,255,255,0.05); }
 
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: #0f1122; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.05); z-index: 1000; }
         .nav-item { text-align: center; font-size: 10px; opacity: 0.5; color: white; cursor: pointer; }
         .nav-item.active { opacity: 1; color: var(--primary); }
+        .nav-item span { font-size: 22px; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -97,7 +98,7 @@
                 <h1 style="margin: 0; font-size: 36px; color: var(--primary);" id="wallet-balance">$0.0000</h1>
             </div>
             
-            <div id="wallet-address-display" class="address-box"></div>
+            <div id="wallet-address-box" class="address-box"></div>
 
             <button id="connect-btn" class="btn-connect" onclick="connectTonWallet()">
                 <img src="https://ton.org/download/ton_symbol.png" width="20"> Connect TON Wallet
@@ -106,10 +107,10 @@
     </div>
 
     <div class="nav-bar">
-        <div class="nav-item active" onclick="showPage('earn', this)"><span>🏠</span><br>Earn</div>
-        <div class="nav-item" onclick="showPage('games', this)"><span>🎮</span><br>Games</div>
-        <div class="nav-item" onclick="showPage('tasks', this)"><span>📈</span><br>Tasks</div>
-        <div class="nav-item" onclick="showPage('wallet', this)"><span>💰</span><br>Wallet</div>
+        <div class="nav-item active" onclick="showPage('earn', this)"><span>🏠</span>Earn</div>
+        <div class="nav-item" onclick="showPage('games', this)"><span>🎮</span>Games</div>
+        <div class="nav-item" onclick="showPage('tasks', this)"><span>📈</span>Tasks</div>
+        <div class="nav-item" onclick="showPage('wallet', this)"><span>💰</span>Wallet</div>
     </div>
 
     <script>
@@ -117,45 +118,38 @@
         tg.ready();
         document.getElementById('user-name').innerText = tg.initDataUnsafe.user?.first_name || "Guest";
 
-        // TON CONNECT LOGIC
+        // TON CONNECT SETUP
         const connector = new TonConnectSDK.TonConnect({
             manifestUrl: 'https://ethio-coin-pro.vercel.app/tonconnect-manifest.json'
         });
 
         async function connectTonWallet() {
             const walletLink = connector.connect({
-                universalLink: 'https://t.me/wallet?attach=wallet',
+                universalLink: 'https://t.me/wallet/start?startapp=tonconnect',
                 bridgeUrl: 'https://bridge.tonapi.io/bridge'
             });
             tg.openTelegramLink(walletLink);
         }
 
-        // Deposit Function
+        // DEPOSIT TO TON WALLET
         function depositMoney() {
-            tg.showConfirm("Do you want to open Telegram Wallet to deposit funds?", (confirm) => {
-                if(confirm) tg.openTelegramLink("https://t.me/wallet");
-            });
+            // Kallattiin gara fuula 'Receive' TON Wallet geessa
+            tg.openTelegramLink("https://t.me/wallet/start?startapp=receive-TON");
         }
 
-        // Status change listener to show address
         connector.onStatusChange(wallet => {
             if (wallet) {
-                const rawAddr = wallet.account.address;
-                // Friendly address format (short)
-                const displayAddr = rawAddr.substring(0, 8) + "..." + rawAddr.substring(rawAddr.length - 8);
+                const addr = wallet.account.address;
+                const box = document.getElementById('wallet-address-box');
+                box.innerHTML = `<strong>Connected Address:</strong><br><span style="color:#fff">${addr}</span>`;
+                box.style.display = 'block';
                 
-                const addrBox = document.getElementById('wallet-address-display');
-                addrBox.innerHTML = `<strong>Connected Address:</strong><br>${rawAddr}`;
-                addrBox.style.display = 'block';
-                
-                const btn = document.getElementById('connect-btn');
-                btn.innerText = "Wallet Connected ✅";
-                btn.style.background = "#1e2440";
-                btn.style.color = "#00d084";
+                document.getElementById('connect-btn').innerText = "Wallet Connected ✅";
+                document.getElementById('connect-btn').style.background = "#2b2f4a";
+                document.getElementById('connect-btn').style.color = "white";
             }
         });
 
-        // UI Helpers
         function showPage(id, el) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
             document.getElementById(id).classList.add('active-page');
@@ -188,10 +182,10 @@
                 data.balance += amount;
                 localStorage.setItem('asbeks_data', JSON.stringify(data));
                 updateUI();
-                tg.showAlert("Reward added successfully!");
+                tg.showAlert("Success!");
             } catch (e) { tg.showAlert("Ad not ready yet."); }
         }
         updateUI();
     </script>
 </body>
-</html>        
+</html>
